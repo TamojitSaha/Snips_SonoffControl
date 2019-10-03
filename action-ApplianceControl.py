@@ -31,12 +31,12 @@ def subscribe_intent_callback(hermes, intentMessage):
 
 def action_wrapper(hermes, intentMessage, conf):
     if len(intentMessage.slots.Appliance) > 0:
-		appliance = intentMessage.slots.Appliance.first().value 
-     if len(intentMessage.slots.SwitchState) > 0:
-		switchStat = intentMessage.slots.SwitchState.first().value
-		result_sentence = "Ok, turning {} {}.".format(str(switchStat),str(appliance))  # The response that will be said out loud by the TTS engine.
-	else:
-		result_sentence = "Sorry, I could not follow."
+        appliance = intentMessage.slots.Appliance.first().value
+        if len(intentMessage.slots.SwitchState) > 0:
+            switchStat = intentMessage.slots.SwitchState.first().value
+            result_sentence = "Ok, turning {} {}.".format(str(switchStat),str(appliance))  # The response that will be said out loud by the TTS engine.
+    else:
+        result_sentence = "Sorry, I could not follow."
 
 current_session_id = intentMessage.session_id
 hermes.publish_end_session(current_session_id, result_sentence)
