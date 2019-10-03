@@ -40,8 +40,9 @@ def action_wrapper(hermes, intentMessage, conf):
             hermes.publish_end_session( intentMessage.session_id, result_sentence)
         else:
             result_sentence = "Sorry, I could not follow."
+            hermes.publish_end_session( intentMessage.session_id, result_sentence)
     else:
-        hermes.publish_end_session(intentMessage.session_id, "An error occured")
+        hermes.publish_end_session(intentMessage.session_id, "Something is wrong! Please speak again.")
         
 
 
