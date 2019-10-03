@@ -30,12 +30,20 @@ def subscribe_intent_callback(hermes, intentMessage):
 
 
 def action_wrapper(hermes, intentMessage, conf):
-    {{#each action_code as |a|}}{{a}}
-    {{/each}}
+    if len(intentMessage.slots.Appliance) > 0:
+		appliance = intentMessage.slots.Appliance.first().value 
+     if len(intentMessage.slots.SwitchState) > 0:
+		switchStat = intentMessage.slots.SwitchState.first().value
+		result_sentence = "Ok, turning {} {}.".format(str(switchStat),str(appliance))  # The response that will be said out loud by the TTS engine.
+	else:
+		result_sentence = "Sorry, I could not follow."
+
+current_session_id = intentMessage.session_id
+hermes.publish_end_session(current_session_id, result_sentence)
 
 
 if __name__ == "__main__":
     mqtt_opts = MqttOptions()
     with Hermes(mqtt_options=mqtt_opts) as h:
-        h.subscribe_intent("{{intent_id}}", subscribe_intent_callback) \
+        h.subscribe_intent("TamojitSaha:ApplianceControl", subscribe_intent_callback) \
          .start()
