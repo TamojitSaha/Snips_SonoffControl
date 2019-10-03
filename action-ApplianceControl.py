@@ -35,11 +35,13 @@ def action_wrapper(hermes, intentMessage, conf):
         if len(intentMessage.slots.SwitchState) > 0:
             switchStat = intentMessage.slots.SwitchState.first().value
             result_sentence = "Ok, turning {} {}.".format(str(switchStat),str(appliance))  # The response that will be said out loud by the TTS engine.
+            hermes.publish_end_session( intentMessage.session_id, result_sentence)
+        else:
+            result_sentence = "Sorry, I could not follow."
     else:
-        result_sentence = "Sorry, I could not follow."
+        hermes.publish_end_session(intentMessage.session_id, "An error occured")
+        
 
-current_session_id = intentMessage.session_id
-hermes.publish_end_session(current_session_id, result_sentence)
 
 
 if __name__ == "__main__":
