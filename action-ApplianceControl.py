@@ -32,10 +32,8 @@ def subscribe_intent_callback(hermes, intentMessage):
 def action_wrapper(hermes, intentMessage, conf):
     if len(intentMessage.slots.Appliance) > 0:
         appliance = intentMessage.slots.Appliance.first().value
-        print (str(appliance))
         if len(intentMessage.slots.SwitchState) > 0:
             switchStat = intentMessage.slots.SwitchState.first().value
-            print (str(switchStat))
             result_sentence = "Ok, turning {} {}.".format(str(switchStat),str(appliance))  # The response that will be said out loud by the TTS engine.
             hermes.publish_end_session( intentMessage.session_id, result_sentence)
         else:
@@ -44,9 +42,7 @@ def action_wrapper(hermes, intentMessage, conf):
     else:
         hermes.publish_end_session(intentMessage.session_id, "Something is wrong! Please speak again.")
         
-
-
-
+        
 if __name__ == "__main__":
     #mqtt_opts = MqttOptions()
     with Hermes("localhost:1883") as h:
